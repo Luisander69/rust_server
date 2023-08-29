@@ -6,7 +6,8 @@ use server::Server;
 mod http;
 mod server;
 fn main() {
-    let get = Method::GET;
+    println!("Test");
+	let get = Method::GET;
     let delete = Method::DELETE;
     let post = Method::POST;
     let put = Method::PUT;
