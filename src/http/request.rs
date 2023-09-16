@@ -1,5 +1,5 @@
-use super::method::{MethodError, Method};
-use super::{QueryString};
+use super::method::{Method, MethodError};
+use super::QueryString;
 use std::convert::TryFrom;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
@@ -21,17 +21,17 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
         let (method, request) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
         let (mut path, request) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
         let (protocol, _) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
-        if protocol != "HTTP/1.1"{
-            return Err(ParseError::InvalidProtocol)
+        if protocol != "HTTP/1.1" {
+            return Err(ParseError::InvalidProtocol);
         }
         let method: Method = method.parse()?;
         let mut query_string = None;
 
-        if let Some(i) = path.find('?'){
-            query_string = Some(QueryString::from(&path[i+1..]));
+        if let Some(i) = path.find('?') {
+            query_string = Some(QueryString::from(&path[i + 1..]));
             path = &path[..i];
         }
-        Ok(Self{
+        Ok(Self {
             path: path,
             query_string,
             method,
@@ -41,8 +41,8 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
 
 fn get_next_word(request: &str) -> Option<(&str, &str)> {
     for (i, c) in request.chars().enumerate() {
-        if c == ' ' || c == '\r'{
-            return Some((&request[..i], &request[i+1..]))
+        if c == ' ' || c == '\r' {
+            return Some((&request[..i], &request[i + 1..]));
         }
     }
     None

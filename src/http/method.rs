@@ -1,5 +1,5 @@
-use std::str::FromStr;
 use crate::http::ParseError;
+use std::str::FromStr;
 
 #[derive(Debug)]
 pub enum Method {
@@ -13,7 +13,7 @@ pub enum Method {
     TRACE,
     PATCH,
 }
-impl FromStr for Method{
+impl FromStr for Method {
     type Err = MethodError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
@@ -26,9 +26,8 @@ impl FromStr for Method{
             "OPTIONS" => Ok(Self::OPTIONS),
             "TRACE" => Ok(Self::TRACE),
             "PATCH" => Ok(Self::PATCH),
-            _ =>Err(MethodError)
+            _ => Err(MethodError),
         }
-
     }
 }
 pub struct MethodError;
